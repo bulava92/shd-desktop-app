@@ -1,0 +1,92 @@
+<Window x:Class="SHD.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SHD" Width="1320" Height="860" MinWidth="900" MinHeight="560"
+        WindowStartupLocation="CenterScreen" Background="#171717" Foreground="#E8E8E8"
+        FontFamily="Segoe UI" FontSize="13"
+        Loaded="Window_Loaded" Closing="Window_Closing" PreviewKeyDown="Window_PreviewKeyDown">
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top" Background="#222222" Foreground="#E8E8E8">
+            <MenuItem Header="_Файл">
+                <MenuItem Header="Новая вкладка" InputGestureText="Ctrl+T" Click="NewTab_Click" />
+                <MenuItem Header="Новое окно" InputGestureText="Ctrl+N" Click="NewWindow_Click" />
+                <Separator />
+                <MenuItem Header="Печать…" InputGestureText="Ctrl+P" Click="Print_Click" />
+                <MenuItem Header="Открыть папку загрузок" Click="Downloads_Click" />
+                <Separator />
+                <MenuItem Header="Закрыть вкладку" InputGestureText="Ctrl+W" Click="CloseTab_Click" />
+                <MenuItem Header="Выход" Click="Exit_Click" />
+            </MenuItem>
+            <MenuItem Header="_Правка">
+                <MenuItem Header="Отменить" InputGestureText="Ctrl+Z" Click="Undo_Click" />
+                <MenuItem Header="Повторить" InputGestureText="Ctrl+Y" Click="Redo_Click" />
+                <Separator />
+                <MenuItem Header="Вырезать" InputGestureText="Ctrl+X" Click="Cut_Click" />
+                <MenuItem Header="Копировать" InputGestureText="Ctrl+C" Click="Copy_Click" />
+                <MenuItem Header="Вставить" InputGestureText="Ctrl+V" Click="Paste_Click" />
+                <MenuItem Header="Выбрать всё" InputGestureText="Ctrl+A" Click="SelectAll_Click" />
+            </MenuItem>
+            <MenuItem Header="_Вид">
+                <MenuItem Header="Назад" InputGestureText="Alt+Left" Click="Back_Click" />
+                <MenuItem Header="Вперёд" InputGestureText="Alt+Right" Click="Forward_Click" />
+                <Separator />
+                <MenuItem Header="Обновить" InputGestureText="Ctrl+R" Click="Reload_Click" />
+                <MenuItem Header="Очистить кэш и обновить" InputGestureText="Ctrl+Shift+R" Click="HardReload_Click" />
+                <Separator />
+                <MenuItem Header="Увеличить" InputGestureText="Ctrl++" Click="ZoomIn_Click" />
+                <MenuItem Header="Уменьшить" InputGestureText="Ctrl+-" Click="ZoomOut_Click" />
+                <MenuItem Header="Исходный масштаб" InputGestureText="Ctrl+0" Click="ZoomReset_Click" />
+                <MenuItem Header="Полноэкранный режим" InputGestureText="F11" Click="FullScreen_Click" />
+                <Separator />
+                <MenuItem Header="Инструменты разработчика" InputGestureText="F12" Click="DevTools_Click" />
+            </MenuItem>
+            <MenuItem Header="_Контур">
+                <MenuItem Header="SHD Production" Click="SelectProduction_Click" />
+                <MenuItem Header="SHD Dev" Click="SelectDev_Click" />
+            </MenuItem>
+            <MenuItem Header="_История">
+                <MenuItem Header="Назад" InputGestureText="Alt+Left" Click="Back_Click" />
+                <MenuItem Header="Вперёд" InputGestureText="Alt+Right" Click="Forward_Click" />
+            </MenuItem>
+        </Menu>
+
+        <Border DockPanel.Dock="Top" Background="#1C1C1C" BorderBrush="#303030" BorderThickness="0,0,0,1" Padding="8,7">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="210" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="BackButton" Grid.Column="0" Content="←" Width="38" ToolTip="Назад" Click="Back_Click" />
+                <Button x:Name="ForwardButton" Grid.Column="1" Content="→" Width="38" ToolTip="Вперёд" Click="Forward_Click" />
+                <Button Grid.Column="2" Content="⟳" Width="38" ToolTip="Обновить" Click="Reload_Click" />
+                <ComboBox x:Name="EnvironmentPicker" Grid.Column="4" Height="32" Padding="8,4"
+                          SelectedValuePath="Tag" SelectionChanged="EnvironmentPicker_SelectionChanged"
+                          Background="#292929" Foreground="#E8E8E8" BorderBrush="#454545">
+                    <ComboBoxItem Content="SHD Production" Tag="Production" />
+                    <ComboBoxItem Content="SHD Dev" Tag="Dev" />
+                </ComboBox>
+                <TextBlock x:Name="PageTitle" Grid.Column="5" VerticalAlignment="Center" Margin="14,0,8,0"
+                           Foreground="#BDBDBD" TextTrimming="CharacterEllipsis" />
+                <Button Grid.Column="6" Content="Печать" Click="Print_Click" />
+                <Button Grid.Column="7" Content="Загрузки" Click="Downloads_Click" />
+                <Button Grid.Column="8" Content="Инструменты" Click="DevTools_Click" />
+            </Grid>
+        </Border>
+
+        <StatusBar DockPanel.Dock="Bottom" Background="#202020" Foreground="#BDBDBD" BorderBrush="#303030" BorderThickness="0,1,0,0">
+            <StatusBarItem><TextBlock x:Name="StatusText" Text="Готово" /></StatusBarItem>
+            <Separator />
+            <StatusBarItem><TextBlock x:Name="StatusEnvironment" Text="SHD Production" /></StatusBarItem>
+        </StatusBar>
+
+        <TabControl x:Name="Tabs" Background="#171717" BorderThickness="0"
+                    SelectionChanged="Tabs_SelectionChanged" />
+    </DockPanel>
+</Window>
