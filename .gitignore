@@ -1,0 +1,9 @@
+.DS_Store
+Apple/.build/
+Apple/dist/
+Apple/.swiftpm/
+Windows/bin/
+Windows/obj/
+Windows/.vs/
+Windows/publish/
+Windows/dist/
