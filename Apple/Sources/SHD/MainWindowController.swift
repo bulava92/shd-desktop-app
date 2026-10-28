@@ -61,14 +61,14 @@ final class MainWindowController: NSWindowController, NSWindowDelegate, WKNaviga
     init(initialEnv: Environment? = nil, initialRequest: URLRequest? = nil) {
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 1440, height: 920),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+            styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered,
             defer: false
         )
         window.center()
         window.title = "SHD"
         window.titleVisibility = .hidden
-        window.titlebarAppearsTransparent = true
+        window.titlebarAppearsTransparent = false
         window.isReleasedWhenClosed = false
         window.minSize = NSSize(width: 800, height: 500)
         
@@ -108,25 +108,10 @@ final class MainWindowController: NSWindowController, NSWindowDelegate, WKNaviga
         config.preferences.isElementFullscreenEnabled = true
         config.defaultWebpagePreferences.allowsContentJavaScript = true
         
-        // Immediate dark style injection before document parsing even starts
-        let darkCSS = """
-        html, body {
-            background-color: #121212 !important;
-            color: #e0e0e0 !important;
-        }
-        """
+        // Keep page colors under the website's control. Only bridge printing
+        // to the native macOS print dialog.
         let darkScript = """
         (function() {
-            var el = document.documentElement;
-            if (el) { el.style.backgroundColor = '#121212'; }
-            var style = document.createElement('style');
-            style.id = '__shd_instant_dark__';
-            style.textContent = '\(darkCSS.replacingOccurrences(of: "\n", with: " "))';
-            if (document.head) {
-                document.head.appendChild(style);
-            } else if (el) {
-                el.appendChild(style);
-            }
             window.print = function() {
                 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.shdNativePrint) {
                     window.webkit.messageHandlers.shdNativePrint.postMessage({});
@@ -199,7 +184,8 @@ final class MainWindowController: NSWindowController, NSWindowDelegate, WKNaviga
         progressIndicator.isDisplayedWhenStopped = false
         container.addSubview(progressIndicator)
         
-        // Layout: Pin webview to container but respect safe area so tab bar does NOT overlap topbar
+        // Keep the web page below the native titlebar and tab strip. The page's
+        // fixed header and background then use the unobstructed web viewport.
         NSLayoutConstraint.activate([
             webView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
