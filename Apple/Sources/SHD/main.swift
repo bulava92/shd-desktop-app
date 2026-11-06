@@ -121,9 +121,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
         // Environment Menu
         let envMenuItem = NSMenuItem()
         let envMenu = NSMenu(title: "Контур")
-        let prodItem = envMenu.addItem(withTitle: "SHD Production (shd.xyz.su)", action: #selector(onSelectProd), keyEquivalent: "1")
+        let prodItem = envMenu.addItem(withTitle: "SHD Production (pm.shd.guru)", action: #selector(onSelectProd), keyEquivalent: "1")
         prodItem.target = self
-        let devItem = envMenu.addItem(withTitle: "SHD Dev (dev-shd.xyz.su)", action: #selector(onSelectDev), keyEquivalent: "2")
+        let devItem = envMenu.addItem(withTitle: "SHD Dev (dev-pm.shd.guru)", action: #selector(onSelectDev), keyEquivalent: "2")
         devItem.target = self
         envMenuItem.submenu = envMenu
         mainMenu.addItem(envMenuItem)

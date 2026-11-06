@@ -15,13 +15,13 @@ private final class WeakScriptMessageHandler: NSObject, WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "shdDesktopAuth" {
             let origin = message.frameInfo.securityOrigin
-            let trustedHosts = ["shd.xyz.su", "dev-shd.xyz.su"]
+            let trustedHosts = ["pm.shd.guru", "dev-pm.shd.guru"]
             guard message.frameInfo.isMainFrame,
                   origin.protocol.lowercased() == "https",
                   trustedHosts.contains(origin.host.lowercased()) else {
                 return
             }
-            let environment: MainWindowController.Environment = origin.host.lowercased() == "dev-shd.xyz.su" ? .dev : .production
+            let environment: MainWindowController.Environment = origin.host.lowercased() == "dev-pm.shd.guru" ? .dev : .production
             controller?.signInWithPasskeyInBrowser(for: environment)
             return
         }
@@ -36,8 +36,8 @@ private final class WeakScriptMessageHandler: NSObject, WKScriptMessageHandler {
 final class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate, ASWebAuthenticationPresentationContextProviding {
     
     enum Environment: String, CaseIterable {
-        case production = "https://shd.xyz.su"
-        case dev = "https://dev-shd.xyz.su"
+        case production = "https://pm.shd.guru"
+        case dev = "https://dev-pm.shd.guru"
         
         var title: String {
             switch self {
@@ -528,7 +528,7 @@ final class MainWindowController: NSWindowController, NSWindowDelegate, WKNaviga
         }
         
         let host = url.host?.lowercased() ?? ""
-        let isInternalHost = host == "shd.xyz.su" || host == "dev-shd.xyz.su" || host == "sso.xyz.su" || host == "git.xyz.su" || host.hasSuffix(".xyz.su")
+        let isInternalHost = host == "pm.shd.guru" || host == "dev-pm.shd.guru" || host == "sso.shd.guru" || host == "git.shd.guru" || host.hasSuffix(".shd.guru")
         
         if navigationAction.navigationType == .linkActivated {
             let openInNewTab = navigationAction.modifierFlags.contains(.command) || navigationAction.buttonNumber == 2
@@ -593,7 +593,7 @@ final class MainWindowController: NSWindowController, NSWindowDelegate, WKNaviga
     
     func webView(_ webView: WKWebView, decideMediaCapturePermissionsFor origin: WKSecurityOrigin, initiatedBy frame: WKFrameInfo, type: WKMediaCaptureType) async -> WKPermissionDecision {
         let host = origin.host.lowercased()
-        if host == "shd.xyz.su" || host == "dev-shd.xyz.su" || host.hasSuffix(".xyz.su") {
+        if host == "pm.shd.guru" || host == "dev-pm.shd.guru" || host.hasSuffix(".shd.guru") {
             return .grant
         }
         return .prompt
@@ -603,7 +603,7 @@ final class MainWindowController: NSWindowController, NSWindowDelegate, WKNaviga
         if navigationAction.targetFrame == nil {
             if let url = navigationAction.request.url {
                 let host = url.host?.lowercased() ?? ""
-                if host == "shd.xyz.su" || host == "dev-shd.xyz.su" || host == "sso.xyz.su" || host == "git.xyz.su" || host.hasSuffix(".xyz.su") {
+                if host == "pm.shd.guru" || host == "dev-pm.shd.guru" || host == "sso.shd.guru" || host == "git.shd.guru" || host.hasSuffix(".shd.guru") {
                     AppDelegate.shared?.openTab(with: navigationAction.request, relativeTo: self.window)
                 } else {
                     NSWorkspace.shared.open(url)

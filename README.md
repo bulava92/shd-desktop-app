@@ -2,19 +2,13 @@
 
 ## macOS
 
-Готовое приложение уже собрано из актуального кода и лежит в репозитории:
+Нужен Mac с процессором Apple Silicon, macOS 14 или новее и установленными Xcode Command Line Tools. Из корня репозитория соберите приложение:
 
-**[Скачать ZIP из Gitea](https://git.xyz.su/shd/shd-desktop-app/raw/branch/main/Apple/downloads/SHD-macOS-arm64.zip)** · **[скачать из GitHub](https://github.com/bulava92/shd-desktop-app/raw/refs/heads/main/Apple/downloads/SHD-macOS-arm64.zip)**
+```bash
+./Apple/Scripts/build-app.sh
+```
 
-В файле репозитория: [`Apple/downloads/SHD-macOS-arm64.zip`](Apple/downloads/SHD-macOS-arm64.zip).
-
-Нужен Mac с процессором Apple Silicon и macOS 14 или новее. Для установки не нужно скачивать исходники или что-либо собирать.
-
-1. Скачайте ZIP по ссылке выше.
-2. Откройте ZIP двойным щелчком — появится `SHD.app`.
-3. Закройте старую версию SHD, если она запущена.
-4. Перетащите `SHD.app` в папку «Программы» и согласитесь заменить старую версию, если macOS спросит.
-5. Откройте SHD из папки «Программы».
+Скрипт соберёт `SHD.app`, подпишет его локальной ad-hoc подписью и создаст `Apple/dist/SHD-macOS-arm64.zip`. Откройте ZIP и перетащите `SHD.app` в папку «Программы».
 
 Сборка не нотарифицирована Apple, поэтому macOS может предупредить о неизвестном разработчике. Если вы скачали приложение из этого репозитория и доверяете ему, после первой попытки запуска откройте «Системные настройки» → «Конфиденциальность и безопасность» → «Открыть всё равно». [Инструкция Apple](https://support.apple.com/en-gb/102445).
 
